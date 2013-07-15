@@ -1,0 +1,12 @@
+{
+  "name": "Todo",
+  "version": "0.1.0",
+  "author": "Daniele Polencic <daniele.polencic@gmail.com>",
+  "description": "Todo App",
+  "dependencies" : {
+    "chai"              : "*"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}
