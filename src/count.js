@@ -1,5 +1,7 @@
 (function(){
 
+  'use strict';
+
   function Count( sandbox ){
     this.total = 0;
     sandbox.subscribe('add', this.update.bind(this, false));
@@ -7,16 +9,16 @@
   }
 
   Count.prototype.update = function( isRemoved ){
-    isRemoved ? this.total-- : this.total++;
+    this.total += isRemoved ? -1 : +1;
     var items = this.total > 1 ? ' items ' : ' item ';
     this.element.innerHTML = this.total + items + 'in list.';
-  }
+  };
 
   Count.prototype.render = function(){
     this.element = document.createElement('div');
     this.element.innerHTML = 'No actions.';
     return this.element;
-  }
+  };
 
   if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {

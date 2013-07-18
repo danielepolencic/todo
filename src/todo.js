@@ -1,9 +1,11 @@
 (function(){
 
+  'use strict';
+
   function Todo( sandbox, attributes ){
     this.sandbox = sandbox;
     this.attributes = attributes;
-  };
+  }
 
   Todo.prototype.render = function(){
 

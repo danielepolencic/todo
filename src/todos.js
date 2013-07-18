@@ -1,16 +1,18 @@
 (function(){
 
+  'use strict';
+
   function Todos( sandbox ){
     sandbox.subscribe('add', this.add.bind(this));
     sandbox.subscribe('remove', this.remove.bind(this));
     this.todos = [];
     this.id = 0;
     this.sandbox = sandbox;
-  };
+  }
 
   Todos.prototype.add = function( action ){
     action += '';
-    if ( action.trim() === '' ) return;
+    if ( action.trim() === '' ) { return; }
 
     var todo = new Todo( this.sandbox, {
       id: this.id++,
@@ -24,7 +26,8 @@
 
   Todos.prototype.remove = function( todo_id ){
     this.todos.some( function(todo, index){
-      if( isMatching = todo.attributes.id === todo_id ){
+      var isMatching = todo.attributes.id === todo_id;
+      if( isMatching ){
         this.todos.splice( index, 1 );
         todo.remove();
       }

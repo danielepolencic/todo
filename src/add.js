@@ -1,5 +1,7 @@
 (function(){
 
+  'use strict';
+
   function Add( sandbox ){
     this.sandbox = sandbox;
   }
@@ -20,13 +22,13 @@
 
     return this.element;
 
-  }
+  };
 
-  Add.prototype.onAdd = function( event ){
-    if( this.input.value.trim() === "" ) return;
+  Add.prototype.onAdd = function(){
+    if( this.input.value.trim() === "" ) { return; }
     this.sandbox.publish('add', this.input.value.trim());
     this.input.value = '';
-  }
+  };
 
   if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
