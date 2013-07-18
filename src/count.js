@@ -20,6 +20,10 @@
     return this.element;
   };
 
+  Count.prototype.destroy = function(){
+    this.element.parentNode.removeChild(this.element);
+  };
+
   App.Count = Count;
 
 }).call(this, window.App);

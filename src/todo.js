@@ -31,7 +31,7 @@
     this.remove();
   };
 
-  Todo.prototype.remove = function(){
+  Todo.prototype.destroy = function(){
     this.btn_delete.removeEventListener('click', this.onDelete.bind(this));
     this.element.parentNode.removeChild(this.element);
   };

@@ -16,9 +16,10 @@
       todo.render();
     });
 
-    it('should be removed', function(){
-      todo.render();
-      todo.remove();
+    it('should be destroyed', function(){
+      var body = document.getElementsByTagName('body')[0];
+      body.appendChild( todo.render() );
+      todo.destroy();
     });
 
   });

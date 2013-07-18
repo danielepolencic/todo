@@ -21,13 +21,16 @@
     this.element.appendChild( submit );
 
     return this.element;
-
   };
 
   Add.prototype.onAdd = function(){
-    if( this.input.value.trim() === "" ) { return; }
+    if( this.input.value.toString().trim() === "" ) { return; }
     this.sandbox.publish('add', this.input.value.trim());
     this.input.value = '';
+  };
+
+  Add.prototype.destroy = function(){
+    this.element.parentNode.removeChild(this.element);
   };
 
   App.Add = Add;
