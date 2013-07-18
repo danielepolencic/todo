@@ -1,4 +1,4 @@
-(function(){
+(function(App){
 
   'use strict';
 
@@ -45,5 +45,7 @@
     this.Observer = Observer;
   }
 
-}).call(this);
+  App.Observer = Observer;
+
+}).call(this, window.App || {});
 

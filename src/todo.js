@@ -1,4 +1,4 @@
-(function(){
+(function( App ){
 
   'use strict';
 
@@ -36,13 +36,6 @@
     this.element.parentNode.removeChild(this.element);
   };
 
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Todo;
-    }
-    exports.Todo = Todo;
-  } else {
-    this.Todo = Todo;
-  }
+  App.Todo = Todo;
 
-}).call(this);
+}).call(this, window.App || {});

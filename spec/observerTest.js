@@ -1,4 +1,4 @@
-(function(){
+(function(App){
 
   'use strict';
 
@@ -7,7 +7,7 @@
     var observer;
 
     beforeEach(function() {
-      observer = new Observer();
+      observer = new App.Observer();
     });
 
     it( 'should subscribe to an event', function(){
@@ -30,4 +30,4 @@
 
   });
 
-}).call(this);
+}).call(this, window.App || {});
