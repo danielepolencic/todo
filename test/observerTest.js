@@ -1,4 +1,6 @@
-var chai = require('chai');
+'use strict';
+
+var chai = require('chai'),
     Observer = require('../src/observer.js');
 
 chai.should();
@@ -8,8 +10,8 @@ describe( 'Observer', function(){
   var observer = new Observer();
 
   it( 'should subscribe to an event', function( done ){
-    ticket = observer.subscribe('test', function(){
-      var args = Array.prototype.slice.call( arguments )
+    observer.subscribe('test', function(){
+      var args = Array.prototype.slice.call( arguments );
       args[0].should.be.equal('test-string');
       done();
     });
@@ -17,14 +19,16 @@ describe( 'Observer', function(){
   });
 
   it( 'should unsubscribe from event', function( done ){
-    var ticket = observer.subscribe('unsub', function(){
+    var callback1 = function(){
       "1".should.be.equal(0);
       done();
-    });
-    observer.subscribe('unsub', function(){
+    };
+    var callback2 = function(){
       done();
-    })
-    observer.unsubscribe( ticket );
+    };
+    observer.subscribe('unsub', callback1);
+    observer.subscribe('unsub', callback2);
+    observer.unsubscribe('unsub', callback1);
     observer.publish('unsub', 'none should reply');
   });
 
