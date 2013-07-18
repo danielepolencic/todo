@@ -1,4 +1,4 @@
-(function(){
+(function(App){
 
   'use strict';
 
@@ -14,7 +14,7 @@
     action += '';
     if ( action.trim() === '' ) { return; }
 
-    var todo = new Todo( this.sandbox, {
+    var todo = new App.Todo( this.sandbox, {
       id: this.id++,
       action: action
     });
@@ -40,13 +40,6 @@
     return this.element;
   };
 
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Todos;
-    }
-    exports.Todos = Todos;
-  } else {
-    this.Todos = Todos;
-  }
+  App.Todos = Todos;
 
-}).call(this);
+}).call(this, window.App || {});

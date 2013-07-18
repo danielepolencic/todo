@@ -1,4 +1,4 @@
-(function(){
+(function(App){
 
   'use strict';
 
@@ -30,13 +30,6 @@
     this.input.value = '';
   };
 
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Add;
-    }
-    exports.Add = Add;
-  } else {
-    this.Add = Add;
-  }
+  App.Add = Add;
 
-}).call(this);
+}).call(this, window.App || {});

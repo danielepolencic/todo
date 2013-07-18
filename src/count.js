@@ -1,4 +1,4 @@
-(function(){
+(function(App){
 
   'use strict';
 
@@ -20,13 +20,6 @@
     return this.element;
   };
 
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Count;
-    }
-    exports.Count = Count;
-  } else {
-    this.Count = Count;
-  }
+  App.Count = Count;
 
-}).call(this);
+}).call(this, window.App);

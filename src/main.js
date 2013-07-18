@@ -2,14 +2,14 @@
 
   'use strict';
 
-  function App(){
-    this.observer = new Observer();
-    this.count = new Count( this.observer );
-    this.todos = new Todos( this.observer );
-    this.add = new Add( this.observer );
+  function Main(){
+    this.observer = new App.Observer();
+    this.count = new App.Count( this.observer );
+    this.todos = new App.Todos( this.observer );
+    this.add = new App.Add( this.observer );
   }
 
-  App.prototype.render = function(){
+  Main.prototype.render = function(){
     this.element = document.createElement('div');
     this.element.appendChild( this.add.render() );
     this.element.appendChild( this.todos.render() );
@@ -17,7 +17,7 @@
     return this.element;
   };
 
-  var myapp = new App();
+  var myapp = new Main();
   var container = document.getElementById('container');
   container.appendChild( myapp.render() );
 
