@@ -1,41 +1,63 @@
-(function(App){
+(function (TodoApp) {
 
   'use strict';
 
-  function Todo( sandbox, attributes ){
-    this.sandbox = sandbox;
-    this.attributes = attributes;
+  function extend () {
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        if(arguments[i].hasOwnProperty(key)) {
+          arguments[0][key] = arguments[i][key];
+        }
+      }
+    }
+    return arguments[0];
   }
 
-  Todo.prototype.render = function(){
+  function Todo (attributes) {
+    TodoApp.Observer.call(this);
+    this._attributes = extend({action: 'no text'}, attributes);
 
-    this.element = document.createElement('li');
-    this.btn_delete = document.createElement('input');
-    var label = document.createElement('span');
+    this._element = void 0;
+    this._label = void 0;
+    this._buttonDelete = void 0;
 
-    this.btn_delete.type = 'submit';
-    this.btn_delete.value = 'delete';
+    this._onDelete = this._onDelete.bind(this);
+  }
 
-    label.innerHTML = this.attributes.action;
+  Todo.prototype = Object.create(TodoApp.Observer.prototype, {
+    constructor: {value: Todo}
+  });
 
-    this.btn_delete.addEventListener('click', this.onDelete.bind(this));
+  Todo.prototype.render = function () {
 
-    this.element.appendChild( label );
-    this.element.appendChild( this.btn_delete );
+    this._buttonDelete = document.createElement('input');
+    this._buttonDelete.type = 'submit';
+    this._buttonDelete.value = 'delete';
+    this._buttonDelete.addEventListener('click', this._onDelete);
 
-    return this.element;
+    this._label = document.createElement('span');
+    this._label.innerHTML = this._attributes.action;
+
+    this._element = document.createElement('li');
+    this._element.appendChild(this._label);
+    this._element.appendChild(this._buttonDelete);
+
+    this.publish('todo:rendered', this._element, this._attributes);
+
+    return this._element;
   };
 
-  Todo.prototype.onDelete = function(){
-    this.sandbox.publish('remove', this.attributes);
-    this.remove();
+  Todo.prototype._onDelete = function (event) {
+    event.preventDefault();
+    this.publish('todo:remove', this._element, this._attributes);
   };
 
-  Todo.prototype.destroy = function(){
-    this.btn_delete.removeEventListener('click', this.onDelete.bind(this));
-    this.element.parentNode.removeChild(this.element);
+  Todo.prototype.destroy = function () {
+    this._buttonDelete.removeEventListener('click', this._onDelete);
+    this.publish('todo:removed', this._elemen, this._attributes);
+    return this._element;
   };
 
-  App.Todo = Todo;
+  TodoApp.Todo = Todo;
 
-}).call(this, window.App || {});
+}).call(this, window.TodoApp || {});
