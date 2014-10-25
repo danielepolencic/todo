@@ -24,23 +24,29 @@ Create a simple list application
 
 ## Solution
 
+## Prerequisites
+Install front-end packages with:
+
+```shell
+~$ bower install
+```
+
 ### Browser support
 Latest Chrome
 
 ### Testing
-Open the `SpecRunner.html` file in your browser of choice.
+Open `spec/SpecRunner.html` in your browser of choice.
 
 ### TODO
-- Todo objects are frequently allocated and deallocated. Creating a pool of
-  Todos and reusing them could improve memory and GC.
+- `Todo`s are frequently allocated and deallocated. Creating a pool of
+  `Todo`s and reusing them could improve memory consumption and could trigger
+  the garbage collector less frequently.
 - No persistent storage.
-- No way to bootstrap the todo list with a list of items.
-- No way to edit the item.
-- Render methods are quite fat. A templating engine could help decouple
-  presentation from content and reduce LoC.
-- The `Count` module counts item by itself. This has to be refactored if
-  a *Delete all* function is introduced.
-- Observer can be easily fail (i.e. when there are exceptions in one of the callbacks).
-- Signals/slots construct could be more appropriate implementation of the Observer
-  pattern in this scenario.
-- key binding on `<Return>`
+- No way to bootstrap the list with `Todo`s.
+- No way to edit `Todo`.
+- `render` methods could benefit from a template engine.
+- `Observer` could fail in few edge cases (i.e. when there are exceptions in one of the callbacks).
+- key binding on `<Return>`.
+- util functions such as `extend`, `isString`, `isFunction`, `isNumber` should
+  be extracted to an `Util` module.
+- in the `Observer` it is possible to register the same callback twice (or more).
