@@ -1,24 +1,18 @@
-(function(){
+(function (TodoApp) {
 
   'use strict';
 
-  function Main(){
-    this.observer = new App.Observer();
-    this.count = new App.Count( this.observer );
-    this.todos = new App.Todos( this.observer );
-    this.add = new App.Add( this.observer );
-  }
+  var todos = new TodoApp.Todos();
+  var form = new TodoApp.Form();
+  var counter = new TodoApp.Counter();
 
-  Main.prototype.render = function(){
-    this.element = document.createElement('div');
-    this.element.appendChild( this.add.render() );
-    this.element.appendChild( this.todos.render() );
-    this.element.appendChild( this.count.render() );
-    return this.element;
-  };
+  form.subscribe('form:submit', todos.add.bind(todos));
+  todos.subscribe('todos:added', counter.increment.bind(counter));
+  todos.subscribe('todos:removed', counter.decrement.bind(counter));
 
-  var myapp = new Main();
-  var container = document.getElementById('container');
-  container.appendChild( myapp.render() );
+  var container = document.querySelector('body');
+  container.appendChild(form.render());
+  container.appendChild(todos.render());
+  container.appendChild(counter.render());
 
-}).call(this);
+}).call(this, window.TodoApp);
