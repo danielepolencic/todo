@@ -1,57 +1,53 @@
-(function(App){
+(function (TodoApp) {
 
   'use strict';
 
-  function Todos( sandbox ){
-    this.sandbox = sandbox;
-    this.sandbox.subscribe('add', this.add.bind(this));
-    this.sandbox.subscribe('remove', this.remove.bind(this));
-    this.todos = [];
-    this.id = 0;
+  function isString (anything) {
+    return Object.prototype.toString.call(anything) === '[object String]';
   }
 
-  Todos.prototype.add = function( action ){
+  function isNumber (anything) {
+    return Object.prototype.toString.call(anything) === '[object Number]';
+  }
 
-    if ( action.toString().trim() === '' ) { return; }
+  function Todos () {
+    TodoApp.Observer.call(this);
 
-    var todo_raw = {
-      id: this.id++,
-      action: action
-    };
-    var todo = new App.Todo( this.sandbox, todo_raw);
+    this._element = void 0;
+    this._id = 0;
+  }
 
-    this.todos.push( todo );
+  Todos.prototype = Object.create(TodoApp.Observer.prototype, {
+    constructor: {value: Todos}
+  });
 
-    this.element.appendChild( todo.render() );
-    return todo_raw;
+  Todos.prototype.add = function (action) {
+    if (!isString(action) || action.trim() === '') return false;
+
+    var todoAttributes = {action: action};
+    var todo = new TodoApp.Todo(todoAttributes);
+
+    todo.subscribe('todo:remove', this._remove.bind(this, todo));
+
+    var todoElement = todo.render();
+    this._element.appendChild(todoElement);
+    this.publish('todos:added', todo, todoElement, todoAttributes);
+    return true;
   };
 
-  Todos.prototype.length = function(){
-    return this.todos.length;
+  Todos.prototype._remove = function (todo, todoElement, todoAttributes) {
+    todo.destroy();
+    this._element.removeChild(todoElement);
+
+    this.publish('todos:removed', todo, todoElement, todoAttributes)
+    return true;
   };
 
-  Todos.prototype.remove = function( todo_id ){
-    this.todos.some( function(todo, index){
-      if( todo.attributes.id === todo_id ){
-        this.todos.splice( index, 1 );
-        todo.destroy();
-        return true;
-      }
-      return false;
-    }.bind(this));
+  Todos.prototype.render = function () {
+    this._element = document.createElement('ul');
+    return this._element;
   };
 
-  Todos.prototype.destroy = function(){
-    this.sandbox.unsubscribe('add', this.add.bind(this));
-    this.sandbox.unsubscribe('remove', this.remove.bind(this));
-    this.element.parentNode.removeChild(this.element);
-  };
+  TodoApp.Todos = Todos;
 
-  Todos.prototype.render = function(){
-    this.element = document.createElement('ul');
-    return this.element;
-  };
-
-  App.Todos = Todos;
-
-}).call(this, window.App || {});
+}).call(this, window.TodoApp || {});
