@@ -11,7 +11,7 @@
   }
 
   function Observer () {
-    this.listeners = new Map();
+    this._listeners = new Map();
   }
 
   Observer.prototype.subscribe = function (event, callback) {
@@ -19,11 +19,11 @@
       return false;
     }
 
-    if (!this.listeners.has(event)) {
-      this.listeners.set(event, []);
+    if (!this._listeners.has(event)) {
+      this._listeners.set(event, []);
     }
 
-    this.listeners.get(event).push(callback);
+    this._listeners.get(event).push(callback);
     return true;
   };
 
@@ -32,24 +32,24 @@
       return false;
     }
 
-    if (!this.listeners.has(event)) return false;
+    if (!this._listeners.has(event)) return false;
 
-    var subscribers = this.listeners.get(event).filter(function (subscriber) {
+    var subscribers = this._listeners.get(event).filter(function (subscriber) {
       return callback !== subscriber;
     });
 
-    this.listeners.set(event, subscribers);
+    this._listeners.set(event, subscribers);
     return true;
   };
 
   Observer.prototype.publish = function (event){
-    if (!isString(event) || event.trim() === '' || !this.listeners.has(event)) {
+    if (!isString(event) || event.trim() === '' || !this._listeners.has(event)) {
       return false;
     }
 
     var args = [].slice.call(arguments, 1);
 
-    this.listeners.get(event).forEach(function (subscriber) {
+    this._listeners.get(event).forEach(function (subscriber) {
       subscriber.apply(void 0, args);
     });
     return true;
